@@ -1,0 +1,41 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mini Trello</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<h1>Tablero Trello</h1>
+
+<div class="board">
+    <div class="column" data-status="BACKLOG">
+        <h2>Backlog</h2>
+        <div class="task-container" id="BACKLOG"></div>
+    </div>
+
+    <div class="column" data-status="PENDIENTE">
+        <h2>Pendiente</h2>
+        <div class="task-container" id="PENDIENTE"></div>
+    </div>
+
+    <div class="column" data-status="PROGRESO">
+        <h2>En Progreso</h2>
+        <div class="task-container" id="PROGRESO"></div>
+    </div>
+
+    <div class="column" data-status="HECHO">
+        <h2>Hecho</h2>
+        <div class="task-container" id="HECHO"></div>
+    </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
+
+
+
