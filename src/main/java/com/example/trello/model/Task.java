@@ -4,6 +4,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.PrePersist;
 
 @Entity
 public class Task {
@@ -24,6 +25,13 @@ public class Task {
         this.title = title;
         this.description = description;
         this.status = status;
+    }
+
+    @PrePersist
+    protected void onCreate() {
+        if (this.status == null || this.status.isEmpty()) {
+            this.status = "BACKLOG";
+        }
     }
 
     // getters y setters

@@ -3,7 +3,11 @@ async function loadTasks() {
     const tasks = await res.json();
 
     tasks.forEach(task => {
-        createTaskElement(task);
+        try {
+            createTaskElement(task);
+        } catch (err) {
+            console.warn('Failed to render task', task, err);
+        }
     });
 }
 
@@ -16,7 +20,20 @@ function createTaskElement(task) {
 
     div.addEventListener("dragstart", dragStart);
 
-    document.getElementById(task.status).appendChild(div);
+    const container = document.getElementById(task.status);
+    if (!container) {
+        console.warn('Unknown or empty status for task, assigning to BACKLOG:', task);
+        const fallback = document.getElementById('BACKLOG');
+        if (fallback) {
+            fallback.appendChild(div);
+        } else {
+            // As a last resort, append to body so it's visible for debugging
+            document.body.appendChild(div);
+        }
+        return;
+    }
+
+    container.appendChild(div);
 }
 
 function dragStart(e) {
