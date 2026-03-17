@@ -1,43 +1,121 @@
 body {
-    font-family: Arial, sans-serif;
-    background: linear-gradient(135deg, #1e1e2f, #4b2d5e);
-    color: white;
-    margin: 0;
-    padding: 20px;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg, #1e1e2f, #4b2d5e);
+  color: white;
+  margin: 0;
+  padding: 20px;
 }
 
 h1 {
-    text-align: center;
+  text-align: center;
 }
 
 .board {
-    display: flex;
-    gap: 20px;
-    margin-top: 30px;
+  display: flex;
+  gap: 20px;
+  margin-top: 30px;
 }
 
 .column {
-    background: #111;
-    padding: 15px;
-    border-radius: 12px;
-    width: 25%;
+  background: #111;
+  padding: 15px;
+  border-radius: 12px;
+  width: 25%;
 }
 
 .column h2 {
-    text-align: center;
+  text-align: center;
 }
 
 .task {
-    background: #2c2c2c;
-    padding: 10px;
-    margin-bottom: 10px;
-    border-radius: 8px;
-    cursor: grab;
+  background: #2c2c2c;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  cursor: grab;
 }
 
 .task-container {
-    min-height: 100px; /* Evita que la columna "colapse" si está vacía */
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 8px;
-    padding: 10px;
+  min-height: 100px; /* Evita que la columna "colapse" si está vacía */
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  padding: 10px;
+}
+
+/* Controls */
+.controls {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  margin-bottom: 12px;
+}
+
+form {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+input,
+select {
+  padding: 8px;
+  border-radius: 6px;
+  border: none;
+}
+button {
+  padding: 8px 10px;
+  border-radius: 6px;
+  border: none;
+  background: #6c5ce7;
+  color: white;
+  cursor: pointer;
+}
+
+.column {
+  width: 260px;
+}
+.column h2 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 16px;
+}
+.col-delete {
+  margin-left: 8px;
+  background: #e17055;
+  padding: 6px 8px;
+  font-size: 12px;
+}
+
+.task {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  align-items: center;
+}
+.task-title {
+  font-weight: 600;
+}
+.task-desc {
+  font-size: 12px;
+  opacity: 0.8;
+}
+.task-delete {
+  background: #ff7675;
+  border: none;
+  padding: 6px 8px;
+  border-radius: 6px;
+  color: white;
+  cursor: pointer;
+}
+
+@media (max-width: 800px) {
+  .board {
+    flex-direction: column;
+  }
+  .column {
+    width: 100%;
+  }
+  .controls {
+    flex-direction: column;
+  }
 }

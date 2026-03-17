@@ -1,41 +1,30 @@
-
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mini Trello</title>
-<link rel="stylesheet" href="style.css">
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mini Trello</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <h1>Tablero Trello</h1>
 
-<h1>Tablero Trello</h1>
+    <div class="controls">
+      <form id="add-status-form">
+        <input id="new-status-name" placeholder="Nueva columna (nombre)" />
+        <button type="submit">Agregar columna</button>
+      </form>
 
-<div class="board">
-    <div class="column" data-status="BACKLOG">
-        <h2>Backlog</h2>
-        <div class="task-container" id="BACKLOG"></div>
+      <form id="add-task-form">
+        <input id="new-task-title" placeholder="Título tarea" required />
+        <input id="new-task-desc" placeholder="Descripción" />
+        <select id="new-task-status"></select>
+        <button type="submit">Agregar tarea</button>
+      </form>
     </div>
 
-    <div class="column" data-status="PENDIENTE">
-        <h2>Pendiente</h2>
-        <div class="task-container" id="PENDIENTE"></div>
-    </div>
+    <div class="board" id="board-root"></div>
 
-    <div class="column" data-status="PROGRESO">
-        <h2>En Progreso</h2>
-        <div class="task-container" id="PROGRESO"></div>
-    </div>
-
-    <div class="column" data-status="HECHO">
-        <h2>Hecho</h2>
-        <div class="task-container" id="HECHO"></div>
-    </div>
-</div>
-
-<script src="app.js"></script>
-</body>
+    <script src="app.js"></script>
+  </body>
 </html>
-
-
-

@@ -2,6 +2,8 @@ package com.example.trello.controller;
 
 import java.util.List;
 
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -38,5 +40,12 @@ public class TaskController {
         Task task = repository.findById(id).orElseThrow();
         task.setStatus(updated.getStatus());
         return repository.save(task);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> delete(@PathVariable Long id) {
+        if (!repository.existsById(id)) return ResponseEntity.notFound().build();
+        repository.deleteById(id);
+        return ResponseEntity.noContent().build();
     }
 }
