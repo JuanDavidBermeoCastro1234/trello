@@ -80,7 +80,21 @@ function createTaskElement(task) {
 }
 
 function dragStart(e) {
-  e.dataTransfer.setData("id", e.target.dataset.id);
+  // mark this as a task drag
+  const id = e.currentTarget.dataset.id || e.target.dataset.id;
+  e.dataTransfer.setData("text/plain", "task:" + id);
+  e.dataTransfer.effectAllowed = "move";
+}
+
+function colDragStart(e) {
+  const name = e.currentTarget.parentElement.dataset.status;
+  e.dataTransfer.setData("text/plain", "col:" + name);
+  e.dataTransfer.effectAllowed = "move";
+  e.currentTarget.classList.add("dragging");
+}
+
+function colDragEnd(e) {
+  e.currentTarget.classList.remove("dragging");
 }
 
 async function renderBoard() {
@@ -136,7 +150,12 @@ async function renderBoard() {
     container.addEventListener("dragover", (e) => e.preventDefault());
     container.addEventListener("drop", async (e) => {
       e.preventDefault();
-      const id = e.dataTransfer.getData("id");
+      const raw =
+        e.dataTransfer.getData("text/plain") || e.dataTransfer.getData("id");
+      if (!raw) return;
+      // only handle task drags here
+      if (!raw.startsWith("task:")) return;
+      const id = raw.startsWith("task:") ? raw.substring(5) : raw;
       const newStatus = container.id;
       const taskElement = document.querySelector(`[data-id='${id}']`);
       if (taskElement) container.appendChild(taskElement);
@@ -150,6 +169,43 @@ async function renderBoard() {
     col.appendChild(h);
     col.appendChild(delCol);
     col.appendChild(container);
+
+    // enable dragging columns by their header to reorder (attach to header 'h')
+
+    h.draggable = true;
+    h.addEventListener("dragstart", colDragStart);
+    h.addEventListener("dragend", colDragEnd);
+
+    col.addEventListener("dragover", (e) => {
+      // allow drop for column drags
+      e.preventDefault();
+      col.classList.add("drag-over");
+    });
+    col.addEventListener("dragleave", () => col.classList.remove("drag-over"));
+
+    col.addEventListener("drop", async (e) => {
+      e.preventDefault();
+      col.classList.remove("drag-over");
+      const raw = e.dataTransfer.getData("text/plain") || "";
+      if (!raw.startsWith("col:")) return;
+      const draggedName = raw.substring(4);
+      const targetName = name;
+      if (draggedName === targetName) return;
+
+      const statuses = getStoredStatuses();
+      const fromIndex = statuses.indexOf(draggedName);
+      if (fromIndex === -1) return;
+      const rect = col.getBoundingClientRect();
+      const insertAfter = e.clientX > rect.left + rect.width / 2;
+      statuses.splice(fromIndex, 1);
+      let targetIndex = statuses.indexOf(targetName);
+      if (targetIndex === -1) targetIndex = statuses.length;
+      const insertIndex = insertAfter ? targetIndex + 1 : targetIndex;
+      statuses.splice(insertIndex, 0, draggedName);
+      saveStatuses(statuses);
+      await renderBoard();
+    });
+
     board.appendChild(col);
 
     const opt = document.createElement("option");
